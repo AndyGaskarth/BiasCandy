@@ -33,8 +33,54 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home'); // home | checkout
 
   // ----- Funções -----
-  const handleAddToCart = (product) => setCart((prev) => [...prev, product]);
-  const handleClearCart = () => setCart([]);
+  // Adiciona produto ou incrementa quantidade se já existir
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => {
+      const existingIndex = prevCart.findIndex((item) => item.id === product.id);
+
+      if(existingIndex > -1 ){
+        const updatedCart = [...prevCart];
+        updatedCart[existingIndex] = {
+        ...updatedCart[existingIndex],
+        quantity: updatedCart[existingIndex].quantity + 1
+        };
+        return updatedCart;  
+      }
+
+      return [...prevCart, {...product, quantity: 1}]
+    });
+  };
+
+  // Aumenta a quantidade (+1)
+  const handleIncreaseQuantity = (id) => {
+    setCart((prevCart) =>
+      prevCart.map((item) => 
+        item.id === id ? { ...item, quantity: item.quantity + 1}: item
+    )
+  );
+};
+
+  //Diminui a quantidade (-1)
+  const handleDecreaseQuantity = (id) => {
+    setCart((prevCart) =>
+      prevCart
+      .map((item)=>
+      item.id === id ? {...item, quantity: item.quantity - 1 } : item
+    )
+    .filter((item) => item.quantity > 0)
+  );
+  };
+
+  //Remove o item 
+  const handleRemoveFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
+  }
+
+  //Necessario fazer a soma de todas as quantidades individuais para o badge do Header abaixo!!
 
   // Total do carrinho
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
