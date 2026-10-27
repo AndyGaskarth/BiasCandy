@@ -1,10 +1,11 @@
 import React from 'react';
 import icon from '../assets/icon.png'
 
-export default function Header ({cartCount = 0}) {
+export default function Header ({cartCount = 0, onOpenCheckout, onGoHome}) {
     return (
         <header className="flex flex-col sm:flex-row justify-between items-center bg-gray-900 text-white px-6 py-4 rounded-lg shadow-md gap-4 mb-8">
-            <div> <img src={icon} alt="BiaCandy's Logo" className="h-8 w-8 mr-2" />
+            <div onClick={onGoHome} className="flex items-center ga-2 cursor-pointer hover:opacity-90 transition"> 
+                <img src={icon} alt="BiaCandy's Logo" className="h-8 w-8 mr-2" />
                 <h1>BiaCandy's</h1> 
             </div>
             {/* Barra de Busca */}
@@ -14,7 +15,7 @@ export default function Header ({cartCount = 0}) {
             <div>
                 <button className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">Buscar</button>
             </div>
-            <div className="flex items-center gap-2 bg-gray-800 hover:bg-purple-600 transition-colors px-4 py-2 rounded-lg">
+            <div onClick={onOpenCheckout} className="flex items-center gap-2 bg-gray-800 hover:bg-purple-600 transition-colors px-4 py-2 rounded-lg">
                 <span>🛍️ Carrinho</span>
                 <span className="bg-red-500 text-wite text-xs font-bold px-2.5 py-0.5 rounded-full">
                     {cartCount}
