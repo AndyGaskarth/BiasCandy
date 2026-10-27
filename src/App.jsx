@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
+
 
 const mockProducts = [
   {
@@ -40,16 +41,27 @@ export default function App() {
 
   return (
     <div>
-      <Header />
+      <Header cartCount={cart.length} />
       <main>
-        <h2>Nossa Vitrine de Produtos</h2>
-        <ProductCard 
-          title="Produto Exemplo"
-          price="99.99"
-          category="Categoria Exemplo"
-          image="https://via.placeholder.com/150"
-          onAddCart={() => alert('Produto adicionado ao carrinho!')}
-        />
+        <section className="lg:col-span-2 max-w-7xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            Nossa Vitrine de Produtos
+          </h2>
+
+          {/* Grid de cards */}
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {mockProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                title={product.title}
+                price={product.price}
+                category={product.category}
+                image={product.imagem !== '[Ainda será enviado]' ? product.imagem : 'https://via.placeholder.com/150'}
+                onAddToCart={() => handleAddToCart(product)}   // <-- nome correto da prop
+              />
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
